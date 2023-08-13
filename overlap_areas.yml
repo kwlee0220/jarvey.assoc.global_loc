@@ -1,0 +1,6 @@
+---
+etri_testbed:
+   - etri:04: etri:05
+   - etri:04: etri:06
+   - etri:05: etri:06
+   - etri:05: etri:07
