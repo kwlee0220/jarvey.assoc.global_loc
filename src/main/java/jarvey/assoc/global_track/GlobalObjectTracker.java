@@ -12,7 +12,7 @@ import com.google.common.collect.Range;
 
 import jarvey.assoc.OverlapAreaRegistry;
 import jarvey.streams.model.GlobalTrack;
-import jarvey.streams.model.NodeTrack;
+import jarvey.streams.node.NodeTrack;
 
 /**
  * 

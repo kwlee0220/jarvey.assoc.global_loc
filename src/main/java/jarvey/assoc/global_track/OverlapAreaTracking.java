@@ -22,8 +22,9 @@ import jarvey.streams.HoppingWindowManager;
 import jarvey.streams.Window;
 import jarvey.streams.model.GlobalTrack;
 import jarvey.streams.model.LocalTrack;
-import jarvey.streams.model.NodeTrack;
 import jarvey.streams.model.TrackletId;
+import jarvey.streams.node.NodeTrack;
+
 import utils.Utilities;
 import utils.func.FOption;
 import utils.func.Tuple;

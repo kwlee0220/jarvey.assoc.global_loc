@@ -24,7 +24,7 @@ import com.google.common.collect.Range;
 import jarvey.assoc.OverlapArea;
 import jarvey.assoc.OverlapAreaRegistry;
 import jarvey.streams.model.GlobalTrack;
-import jarvey.streams.model.NodeTrack;
+import jarvey.streams.node.NodeTrack;
 import jarvey.streams.serialization.json.GsonUtils;
 import utils.UnitUtils;
 import utils.func.Unchecked;

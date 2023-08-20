@@ -20,7 +20,7 @@ import com.google.common.collect.Range;
 import jarvey.assoc.OverlapAreaRegistry;
 import jarvey.streams.TrackTimestampExtractor;
 import jarvey.streams.model.GlobalTrack;
-import jarvey.streams.model.NodeTrack;
+import jarvey.streams.node.NodeTrack;
 import jarvey.streams.serialization.json.GsonUtils;
 
 /**
@@ -69,7 +69,7 @@ final class GlobalObjectTrackerTopologyBuilder {
 	private String assignOverlapAreaKey(String key, NodeTrack track) {
 		return m_areas.findByNodeId(track.getNodeId())
 						.map(ov -> ov.getId())
-						.getOrElse(() -> track.getId());
+						.getOrElse(() -> track.getKey());
 	}
 	
 //	private int assignPartitionId(String topic, String key, NodeTrack track, int nparts) {
