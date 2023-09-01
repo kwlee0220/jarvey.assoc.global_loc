@@ -4,7 +4,6 @@ import static utils.Utilities.checkArgument;
 import static utils.Utilities.checkState;
 
 import java.time.Duration;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -18,18 +17,18 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Range;
 
+import utils.Utilities;
+import utils.func.FOption;
+import utils.func.Tuple;
+import utils.stream.FStream;
+import utils.stream.KeyedGroups;
+
 import jarvey.streams.HoppingWindowManager;
 import jarvey.streams.Window;
 import jarvey.streams.model.GlobalTrack;
 import jarvey.streams.model.LocalTrack;
 import jarvey.streams.model.TrackletId;
 import jarvey.streams.node.NodeTrack;
-
-import utils.Utilities;
-import utils.func.FOption;
-import utils.func.Tuple;
-import utils.stream.FStream;
-import utils.stream.KeyedGroups;
 
 
 /**
@@ -87,7 +86,7 @@ public final class OverlapAreaTracking {
 			long maxTs = FStream.from(result._1).mapToLong(w -> w.endTime()).max();
 			trackeds = FStream.from(m_clusters)
 								.filter(c -> c.getTimestamp() < maxTs)
-								.flatMap(this::toGlobalTracks)
+								.map(c -> c.toGlobalTrack())
 								.toList();
 		}
 		
@@ -96,15 +95,6 @@ public final class OverlapAreaTracking {
 		}
 		
 		return trackeds;
-	}
-	
-	private FStream<GlobalTrack> toGlobalTracks(TrackCluster cluster) {
-		Collection<LocalTrack> ltracks = cluster.getLocalTracks();
-		return FStream.from(ltracks)
-						.map(lt -> new GlobalTrack(lt.getTrackletId(), cluster.getOverlapAreaId(),
-													cluster.getMeanLocation(),
-													Lists.newArrayList(cluster.getLocalTracks()),
-													cluster.getTimestamp()));
 	}
 	
 	private FOption<TrackCluster> update(NodeTrack track) {

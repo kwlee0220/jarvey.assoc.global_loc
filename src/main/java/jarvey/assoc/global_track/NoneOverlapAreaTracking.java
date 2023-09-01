@@ -8,15 +8,15 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 
+import utils.Utilities;
+import utils.func.Tuple;
+import utils.stream.FStream;
+
 import jarvey.streams.HoppingWindowManager;
 import jarvey.streams.Window;
 import jarvey.streams.model.GlobalTrack;
 import jarvey.streams.model.LocalTrack;
 import jarvey.streams.node.NodeTrack;
-
-import utils.Utilities;
-import utils.func.Tuple;
-import utils.stream.FStream;
 
 
 /**
@@ -53,7 +53,7 @@ public final class NoneOverlapAreaTracking {
 		
 		return FStream.from(expireds)
 						.map(LocalTrack::from)
-						.map(GlobalTrack::new)
+						.map(lt -> GlobalTrack.from(lt, null))
 						.toList();
 	}
 	

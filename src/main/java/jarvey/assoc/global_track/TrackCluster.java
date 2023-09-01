@@ -7,13 +7,15 @@ import org.locationtech.jts.geom.Point;
 
 import com.google.common.collect.Maps;
 
-import jarvey.streams.model.LocalTrack;
-import jarvey.streams.model.Timestamped;
-import jarvey.streams.model.TrackletId;
 import utils.func.FOption;
 import utils.func.Funcs;
 import utils.geo.util.GeoUtils;
 import utils.stream.FStream;
+
+import jarvey.streams.model.GlobalTrack;
+import jarvey.streams.model.LocalTrack;
+import jarvey.streams.model.Timestamped;
+import jarvey.streams.model.TrackletId;
 
 
 /**
@@ -21,6 +23,7 @@ import utils.stream.FStream;
  * @author Kang-Woo Lee (ETRI)
  */
 final class TrackCluster implements Timestamped {
+	private LocalTrack m_leader;
 	private String m_ovId;
 	private Point m_meanLocation;
 	private final Map<String,LocalTrack> m_ltracks;
@@ -28,10 +31,15 @@ final class TrackCluster implements Timestamped {
 	
 	TrackCluster(String ovId, LocalTrack initialTrack) {
 		m_ovId = ovId;
+		m_leader = initialTrack;
 		m_meanLocation = initialTrack.getLocation();
 		m_ltracks = Maps.newHashMap();
 		m_ltracks.put(initialTrack.getNodeId(), initialTrack);
 		m_ts = initialTrack.getTimestamp();
+	}
+	
+	public LocalTrack getLeader() {
+		return m_leader;
 	}
 	
 	public String getOverlapAreaId() {
@@ -58,6 +66,10 @@ final class TrackCluster implements Timestamped {
 		return track.getLocation().distance(getMeanLocation());
 	}
 	
+	public long getFirstTimestamp() {
+		return m_leader.getFirstTimestamp();
+	}
+	
 	public long getTimestamp() {
 		return m_ts;
 	}
@@ -73,6 +85,9 @@ final class TrackCluster implements Timestamped {
 	
 	public void update(LocalTrack track) {
 		m_ltracks.put(track.getNodeId(), track);
+		if ( track.getFirstTimestamp() < m_leader.getFirstTimestamp() ) {
+			m_leader = track;
+		}
 		m_ts = Math.max(m_ts, track.getTimestamp());
 		
 		// 기존 cache된 추정 위치 좌표를 무효화하여 다음번에 다시 계산되도록 한다.
@@ -84,7 +99,15 @@ final class TrackCluster implements Timestamped {
 		if ( removed != null ) {
 			m_meanLocation = calcMeanLocation(m_ltracks.values());
 		}
+		if ( m_leader.getNodeId() == nodeId ) {
+			m_leader = Funcs.min(m_ltracks.values(), LocalTrack::getFirstTimestamp);
+		}
+		
 		return FOption.ofNullable(removed);
+	}
+	
+	public GlobalTrack toGlobalTrack() {
+		return GlobalTrack.from(m_ltracks.values(), getOverlapAreaId());
 	}
 	
 	@Override

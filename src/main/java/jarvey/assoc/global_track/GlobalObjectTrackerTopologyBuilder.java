@@ -102,7 +102,7 @@ final class GlobalObjectTrackerTopologyBuilder {
 //									.withNumberOfPartitions(m_areaPartitionCount)
 //									.withStreamPartitioner(this::assignPartitionId))
 			.flatMapValues(t -> m_tracker.track(t), Named.as("to_global_tracks"))
-			.selectKey((k,gt) -> gt.getNodeId())
+			.selectKey((k,gt) -> gt.getOverlapArea())
 			.to(m_globalTracksTopic,
 				Produced.with(Serdes.String(), GsonUtils.getSerde(GlobalTrack.class))
 						.withName("sink-global-objects"));
