@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Range;
 
+import jarvey.assoc.OverlapArea;
 import jarvey.assoc.OverlapAreaRegistry;
 import jarvey.streams.model.GlobalTrack;
 import jarvey.streams.node.NodeTrack;
@@ -37,9 +38,13 @@ public class GlobalObjectTracker {
 	}
 	
 	public List<GlobalTrack> track(NodeTrack track) {
-		return m_registry.findByNodeId(track.getNodeId())
-						.map(a -> handleOverlapAreaTrack(a.getId(), track))
-						.getOrElse(() -> m_nonOvTracking.track(track));
+		OverlapArea area = m_registry.findByNodeId(track.getNodeId());
+		if ( area != null ) {
+			return handleOverlapAreaTrack(area.getId(), track);
+		}
+		else {
+			return m_nonOvTracking.track(track);
+		}
 	}
 	
 	private List<GlobalTrack> handleOverlapAreaTrack(String ovId, NodeTrack track) {

@@ -17,6 +17,7 @@ import org.apache.kafka.streams.kstream.Repartitioned;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Range;
 
+import jarvey.assoc.OverlapArea;
 import jarvey.assoc.OverlapAreaRegistry;
 import jarvey.streams.TrackTimestampExtractor;
 import jarvey.streams.model.GlobalTrack;
@@ -67,9 +68,8 @@ final class GlobalObjectTrackerTopologyBuilder {
 	}
 	
 	private String assignOverlapAreaKey(String key, NodeTrack track) {
-		return m_areas.findByNodeId(track.getNodeId())
-						.map(ov -> ov.getId())
-						.getOrElse(() -> track.getKey());
+		OverlapArea area = m_areas.findByNodeId(track.getNodeId());
+		return area != null ? area.getId() : track.getKey();
 	}
 	
 //	private int assignPartitionId(String topic, String key, NodeTrack track, int nparts) {

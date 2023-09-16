@@ -65,8 +65,8 @@ public class TestGlobalObjectTracker {
 		props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, BytesDeserializer.class.getName());
 		props.put(ConsumerConfig.GROUP_ID_CONFIG, "test_global_locator");
 		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-		props.put(ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG, (int)UnitUtils.parseDuration("10s"));
-		props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, (int)UnitUtils.parseDuration("30s"));
+		props.put(ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG, (int)UnitUtils.parseDurationMillis("10s"));
+		props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, (int)UnitUtils.parseDurationMillis("30s"));
 
 		final KafkaConsumer<String, Bytes> consumer = new KafkaConsumer<>(props);
 		
