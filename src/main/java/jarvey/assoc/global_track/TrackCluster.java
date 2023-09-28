@@ -12,8 +12,8 @@ import utils.func.Funcs;
 import utils.geo.util.GeoUtils;
 import utils.stream.FStream;
 
-import jarvey.streams.model.GlobalTrack;
-import jarvey.streams.model.LocalTrack;
+import jarvey.streams.assoc.GlobalTrack;
+import jarvey.streams.assoc.LocalTrack;
 import jarvey.streams.model.Timestamped;
 import jarvey.streams.model.TrackletId;
 

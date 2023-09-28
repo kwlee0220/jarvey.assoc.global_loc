@@ -54,7 +54,6 @@ dependencies {
 	compile(project(":utils"))
 	compile(project(":utils.geo"))
 	compile(project(":jarvey.streams"))
-	compile(project(":jarvey.assoc"))
 	
 	// Log4j2 & SLF4j bridge
 	implementation "org.apache.logging.log4j:log4j-api:${log4j_version}"

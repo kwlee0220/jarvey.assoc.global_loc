@@ -15,9 +15,10 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Range;
 
+import jarvey.streams.assoc.motion.OverlapArea;
+import jarvey.streams.assoc.motion.OverlapAreaRegistry;
+
 import io.confluent.common.utils.TestUtils;
-import jarvey.assoc.OverlapArea;
-import jarvey.assoc.OverlapAreaRegistry;
 
 /**
  * 

@@ -25,8 +25,8 @@ import utils.stream.KeyedGroups;
 
 import jarvey.streams.HoppingWindowManager;
 import jarvey.streams.Window;
-import jarvey.streams.model.GlobalTrack;
-import jarvey.streams.model.LocalTrack;
+import jarvey.streams.assoc.GlobalTrack;
+import jarvey.streams.assoc.LocalTrack;
 import jarvey.streams.model.TrackletId;
 import jarvey.streams.node.NodeTrack;
 

@@ -14,8 +14,8 @@ import utils.stream.FStream;
 
 import jarvey.streams.HoppingWindowManager;
 import jarvey.streams.Window;
-import jarvey.streams.model.GlobalTrack;
-import jarvey.streams.model.LocalTrack;
+import jarvey.streams.assoc.GlobalTrack;
+import jarvey.streams.assoc.LocalTrack;
 import jarvey.streams.node.NodeTrack;
 
 
@@ -53,7 +53,7 @@ public final class NoneOverlapAreaTracking {
 		
 		return FStream.from(expireds)
 						.map(LocalTrack::from)
-						.map(lt -> GlobalTrack.from(lt, null))
+						.map(lt -> GlobalTrack.from(lt, null, null))
 						.toList();
 	}
 	
